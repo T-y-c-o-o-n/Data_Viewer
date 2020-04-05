@@ -16,23 +16,34 @@ public class DataPanel extends JPanel implements ActionListener {
         myPythonPath = "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python38-32";
     }
 
-    private JTextField textButton;
+    private JTextField sliceY;
+    private JTextField sliceX;
+    private JCheckBox takeSlice;
 
-    public void setTextButton(JTextField textButton) {
-        this.textButton = textButton;
+    private JTextField filePath;
+
+    public void setFilePath(JTextField filePath) {
+        this.filePath = filePath;
     }
 
     private PythonAdapter adapter;
     private boolean havingFile;
     private String fileCSV;
-    private int rows, cols;
-    private int rowBegin, colBegin;
+    private int rowLeft, rowRight;
+    private int colLeft, colRight;
     List<String> data;
 
     public DataPanel() {
         adapter = new PythonAdapter();
 
-        setBackground(Color.cyan);
+        setBackground(Color.lightGray);
+
+        sliceY = new JTextField("срез по строчкам в формате \"l:r\"");
+        sliceX = new JTextField("срез по столбцам в формате \"l:r\"");
+        takeSlice = new JCheckBox();
+        add(sliceY, 0);
+        add(sliceX, 1);
+        add(takeSlice, 2);
     }
 
     private void findCSV(String path) throws IOException {
@@ -50,7 +61,9 @@ public class DataPanel extends JPanel implements ActionListener {
     }
 
     private void showData() {
-        removeAll();
+        while (getComponentCount() > 3) {
+            remove(3);
+        }
         setVisible(false);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
         add(new JLabel("DATA:"));
@@ -65,42 +78,49 @@ public class DataPanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getActionCommand().equals("confirm_file_path")) {
+        if (e.getActionCommand().equals("get_data")) {
             try {
-                findCSV(textButton.getText());
+                findCSV(filePath.getText());
                 if (havingFile) {
-                    data = adapter.getData("show_all", fileCSV, myPythonPath);
+                    if (takeSlice.isSelected()) {
+                        data = adapter.getFrame(sliceY.getText(), sliceX.getText(), fileCSV, myPythonPath);
+                    } else {
+                        data = adapter.getData("show_all", fileCSV, myPythonPath);
+                    }
                     showData();
                 }
             } catch (FileNotFoundException ex) {
-                System.out.println("Cannot find csv file \"" + textButton.getText() + "\"");
+                System.out.println("Cannot find csv file \"" + filePath.getText() + "\"");
             } catch (IOException ex) {
                 System.out.println("Error trying to use python interpreter");
             }
         }
-        if (e.getActionCommand().equals("show_columns")) {
-            if (havingFile) {
-                data = adapter.getData("columns", fileCSV, myPythonPath);
-            }
+        if (e.getActionCommand().equals("frame")) {
+            data = adapter.getFrame(sliceY.getText(), sliceX.getText(), fileCSV, myPythonPath);
+            showData();
         }
         if (e.getActionCommand().equals("right")) {
-            colBegin++;
+            colLeft++;
+            colRight++;
             showData();
         }
         if (e.getActionCommand().equals("left")) {
-            if (colBegin > 1){
-                colBegin--;
+            if (colLeft > 0){
+                colLeft--;
+                colRight--;
                 showData();
             }
         }
         if (e.getActionCommand().equals("up")) {
-            if (rowBegin > 0) {
-                rowBegin--;
+            if (rowLeft > 0) {
+                rowLeft--;
+                rowRight--;
                 showData();
             }
         }
         if (e.getActionCommand().equals("down")) {
-            rowBegin++;
+            rowLeft++;
+            rowRight++;
             showData();
         }
     }

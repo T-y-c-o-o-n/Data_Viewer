@@ -14,7 +14,7 @@ public class DataViewer extends JFrame {
         ControlPanel controlPanel = new ControlPanel(dataPanel);
         add(controlPanel, BorderLayout.NORTH);
 
-        dataPanel.setTextButton(controlPanel.getTextButton());
+        dataPanel.setFilePath(controlPanel.getFilePath());
 
         setVisible(true);
     }

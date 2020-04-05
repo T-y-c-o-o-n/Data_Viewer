@@ -36,6 +36,12 @@ public class PythonAdapter {
         throw new RuntimeException();
     }
 
+    public List<String> getFrame(String sliceY, String sliceX, String fileCSV, String pathToPython) {
+        return getData("frame 2 4 4 6" /*+ sliceX.replace(':', ' ') + " " +
+                sliceY.replace(':', ' ')*/,
+                fileCSV, pathToPython);
+    }
+
     /**
     * It's only for testing adapter directly
      * args[0] - expected command for adapter

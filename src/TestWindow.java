@@ -25,7 +25,7 @@ public class TestWindow extends JFrame {
 
             JTextField textButton = new JTextField("введите путь до файла", 25);
 
-            JButton findButton = new JButton(new ImageIcon("images/find.png"));
+            JButton findButton = new JButton(new ImageIcon("images/get_data.png"));
             findButton.setActionCommand("confirm file path");
             findButton.addActionListener(shower);
 

@@ -1,27 +1,18 @@
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.*;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 
 public class ControlPanel extends JPanel {
-    private JTextField textButton;
+    private JTextField filePath;
 
     public ControlPanel(ActionListener dataShower) {
         setBackground(Color.gray);
 
-        textButton = new JTextField("введите путь до файла", 25);
+        filePath = new JTextField("введите путь до файла", 25);
 
-        JButton findButton = new JButton(new ImageIcon("images/find.png"));
-        findButton.setActionCommand("confirm_file_path");
+        JButton findButton = new JButton(new ImageIcon("images/get_data.png"));
+        findButton.setActionCommand("get_data");
         findButton.addActionListener(dataShower);
-
-        JButton columnsButton = new JButton("Показать имена столбцов", new ImageIcon("images/show_columns.png"));
-        columnsButton.setActionCommand("show_columns");
-        columnsButton.addActionListener(dataShower);
 
         JButton leftButton = new JButton("влево");
         leftButton.setActionCommand("left");
@@ -39,16 +30,15 @@ public class ControlPanel extends JPanel {
         downButton.setActionCommand("down");
         downButton.addActionListener(dataShower);
 
-        add(textButton);
+        add(filePath);
         add(findButton);
-        add(columnsButton);
         add(rightButton);
         add(leftButton);
         add(upButton);
         add(downButton);
     }
 
-    public JTextField getTextButton() {
-        return textButton;
+    public JTextField getFilePath() {
+        return filePath;
     }
 }
