@@ -33,13 +33,13 @@ public class Panel extends JPanel implements ActionListener {
 
         textButton = new JTextField("введите путь до файла", 25);
 
-        JButton columnsButton = new JButton("Показать имена столбцов", new ImageIcon("images/show_columns.png"));
-        columnsButton.setActionCommand("show columns");
-        columnsButton.addActionListener(this);
-
         JButton findButton = new JButton(new ImageIcon("images/find.png"));
         findButton.setActionCommand("confirm file path");
         findButton.addActionListener(this);
+
+        JButton columnsButton = new JButton("Показать имена столбцов", new ImageIcon("images/show_columns.png"));
+        columnsButton.setActionCommand("show columns");
+        columnsButton.addActionListener(this);
 
         //Выравниваем по центру по оси X
         //button1.setAlignmentX(JComponent.CENTER_ALIGNMENT);
