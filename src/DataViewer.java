@@ -14,5 +14,8 @@ public class DataViewer extends JFrame {
 
     public static void main(String[] args) {
         WindowConstants window = new DataViewer();
+//        new PythonAdapter().run("show_all",
+//                "D:\\Documents\\proga\\javka\\Data_Viewer\\tables\\table.csv",
+//                "C:\\Users\\User\\AppData\\Local\\Programs\\Python\\Python38-32");
     }
 }
