@@ -3,17 +3,18 @@ import java.awt.*;
 import java.awt.event.ActionListener;
 
 public class ControlPanel extends JPanel {
-    private JTextField filePath;
-    private JTextField pythonPath;
+    private JTextField filePathText;
+    private JTextField pythonPathText;
 
     public ControlPanel(ActionListener dataShower) {
         setBackground(Color.gray);
 
-        filePath = new JTextField("введите путь до файла");
-        pythonPath = new JTextField("введите путь до интерпретатора");
+        filePathText = new JTextField("");
+        pythonPathText = new JTextField("");
 
 
-        JButton findButton = new JButton(new ImageIcon("images/get_data.png"));
+        JButton findButton = new JButton("Показать данные"/*new ImageIcon("images/get_data.png")*/);
+        findButton.setBackground(Color.red);
         findButton.setActionCommand("get_data");
         findButton.addActionListener(dataShower);
 
@@ -33,20 +34,28 @@ public class ControlPanel extends JPanel {
         downButton.setActionCommand("down");
         downButton.addActionListener(dataShower);
 
-        add(filePath);
+        setLayout(new GridLayout(2, 6));
+
+        add(new Label("введите путь до файла"));
         add(findButton);
-        add(pythonPath);
-        add(rightButton);
-        add(leftButton);
+        add(new Label("введите путь до интерпретатора"));
+        add(new Label(""));
         add(upButton);
+        add(new Label(""));
+
+        add(filePathText);
+        add(new Label(""));
+        add(pythonPathText);
+        add(leftButton);
         add(downButton);
+        add(rightButton);
     }
 
-    public JTextField getPythonPath() {
-        return pythonPath;
+    public JTextField getPythonPathText() {
+        return pythonPathText;
     }
 
-    public JTextField getFilePath() {
-        return filePath;
+    public JTextField getFilePathText() {
+        return filePathText;
     }
 }
