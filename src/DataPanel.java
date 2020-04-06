@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.plaf.basic.BasicSplitPaneUI;
+import javax.swing.table.TableColumn;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,6 +23,11 @@ public class DataPanel extends JPanel implements ActionListener {
     private JCheckBox takeSlice;
 
     private JTextField filePath;
+    private JTextField pythonPath;
+
+    public void setPythonPath(JTextField pythonPath) {
+        this.pythonPath = pythonPath;
+    }
 
     public void setFilePath(JTextField filePath) {
         this.filePath = filePath;
@@ -41,9 +48,9 @@ public class DataPanel extends JPanel implements ActionListener {
         sliceY = new JTextField("срез по строчкам в формате \"l:r\"");
         sliceX = new JTextField("срез по столбцам в формате \"l:r\"");
         takeSlice = new JCheckBox();
-        add(sliceY, 0);
-        add(sliceX, 1);
-        add(takeSlice, 2);
+        add(sliceY);
+        add(sliceX);
+        add(takeSlice);
     }
 
     private void findCSV(String path) throws IOException {
@@ -61,15 +68,17 @@ public class DataPanel extends JPanel implements ActionListener {
     }
 
     private void showData() {
-        while (getComponentCount() > 3) {
-            remove(3);
-        }
         setVisible(false);
-        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+
+        removeAll();
+        setLayout(new GridLayout(4 + data.size(), 1));
+        add(sliceY);
+        add(sliceX);
+        add(takeSlice);
         add(new JLabel("DATA:"));
         for (String row : data) {
             JButton button = new JButton(row);
-            button.setPreferredSize(this.getSize());
+//            button.setPreferredSize(this.getSize());
             add(button);
         }
 
@@ -83,9 +92,9 @@ public class DataPanel extends JPanel implements ActionListener {
                 findCSV(filePath.getText());
                 if (havingFile) {
                     if (takeSlice.isSelected()) {
-                        data = adapter.getFrame(sliceY.getText(), sliceX.getText(), fileCSV, myPythonPath);
+                        data = adapter.getFrame(sliceY.getText(), sliceX.getText(), fileCSV, pythonPath.getText());
                     } else {
-                        data = adapter.getData("show_all", fileCSV, myPythonPath);
+                        data = adapter.getData("show_all", fileCSV, pythonPath.getText());
                     }
                     showData();
                 }
@@ -96,7 +105,7 @@ public class DataPanel extends JPanel implements ActionListener {
             }
         }
         if (e.getActionCommand().equals("frame")) {
-            data = adapter.getFrame(sliceY.getText(), sliceX.getText(), fileCSV, myPythonPath);
+            data = adapter.getFrame(sliceY.getText(), sliceX.getText(), fileCSV, pythonPath.getText());
             showData();
         }
         if (e.getActionCommand().equals("right")) {

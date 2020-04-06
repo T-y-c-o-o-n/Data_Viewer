@@ -15,6 +15,7 @@ public class DataViewer extends JFrame {
         add(controlPanel, BorderLayout.NORTH);
 
         dataPanel.setFilePath(controlPanel.getFilePath());
+        dataPanel.setPythonPath(controlPanel.getPythonPath());
 
         setVisible(true);
     }
